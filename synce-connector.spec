@@ -110,6 +110,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 /etc/dbus-1/system.d/org.freedesktop.Hal.Device.Synce.conf
 %{_datadir}/hal/fdi/policy/20thirdparty/10-synce.fdi
+%attr(755,root,root) %{_libdir}/hal/scripts/hal-synce-rndis
+%attr(755,root,root) %{_libdir}/hal/scripts/hal-synce-serial
 %endif
 
 %if %{with odccm}
