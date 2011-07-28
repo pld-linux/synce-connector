@@ -5,7 +5,7 @@
 # Conditional build:
 %bcond_without	dbus	# build without dbus support
 %bcond_without	dccm	# build without dccm file support
-%bcond_without	hal	# build without hal support
+%bcond_with	hal	# build without hal support
 %bcond_without	odccm	# build without odccm support
 
 %if %{without dbus}
@@ -14,12 +14,12 @@
 %endif
 Summary:	Connection framework and dccm-implementation for WinCE devices
 Name:		synce-connector
-Version:	0.15.1
+Version:	0.15.2
 Release:	0.1
 License:	GPL v2
 Group:		Applications/System
 Source0:	http://downloads.sourceforge.net/synce/%{name}-%{version}.tar.gz
-# Source0-md5:	f317c14d309c2d1cc9fab1ca1efc8e17
+# Source0-md5:	d557b3fd89b8ecdff6772bd7e1d2451e
 URL:		http://www.synce.org/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake >= 1.4
