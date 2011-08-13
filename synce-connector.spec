@@ -1,21 +1,28 @@
 # TODO:
 # - check connector-dccm requirements
-# - udev? bluetooth?
+# - bluetooth?
 #
 # Conditional build:
-%bcond_without	dbus	# build without dbus support
+%bcond_without	dbus	# build without DBus support
 %bcond_without	dccm	# build without dccm file support
-%bcond_with	hal	# build without hal support
+%bcond_with	hal	# build without HAL support
+%bcond_without	udev	# build without UDEV support
 %bcond_without	odccm	# build without odccm support
 
-%if %{without dbus}
-%undefine with_odccm
-%undefine with_hal
+# UDEV disables HAL
+%if %{with udev}
+%undefine	with_hal
 %endif
+
+%if %{without dbus}
+%undefine	with_odccm
+%undefine	with_hal
+%endif
+
 Summary:	Connection framework and dccm-implementation for WinCE devices
 Name:		synce-connector
 Version:	0.15.2
-Release:	0.1
+Release:	2
 License:	GPL v2
 Group:		Applications/System
 Source0:	http://downloads.sourceforge.net/synce/%{name}-%{version}.tar.gz
@@ -24,10 +31,13 @@ URL:		http://www.synce.org/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake >= 1.4
 %{?with_dbus:BuildRequires:	dbus-glib-devel >= 0.60}
+BuildRequires:	gnet-devel
 %{?with_hal:BuildRequires:	hal-devel >= 0.5.8}
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	synce-libsynce-devel >= 0.11
+%{?with_udev:BuildRequires:	udev-devel}
+%{?with_udev:BuildRequires:	udev-glib-devel}
 Requires:	dhcp-client
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -67,12 +77,22 @@ Requires:	synce-vdccm
 %description dccm
 Provides Connection via dccm for WinCE devices.
 
+%package udev
+Summary:	Provides Connection via UDEV for WinCE devices
+Group:		Applications/System
+Requires:	%{name} = %{version}-%{release}
+
+%description udev
+Provides Connection via UDEV for WinCE devices.
+
 %prep
 %setup -q
 
 %build
 DHCLIENTPATH=/sbin/dhclient \
 %configure \
+	%{?with_udev:--enable-udev} \
+	%{!?with_udev:--disable-udev} \
 %if %{with hal}
 	--with-hal-addon-dir=%{_libdir}/hal/scripts
 %endif
@@ -81,10 +101,7 @@ DHCLIENTPATH=/sbin/dhclient \
 #	%{!?with_hal: --disable-hal-support} \
 #	%{!?with_odccm: --disable-odccm-support}
 #
-#  --enable-udev		   Build for udev
 #  --enable-bluetooth-support Build in bluetooth support
-#  --with-hal-addon-dir=PATH	 Location of the hal addon scripts.
-#  --with-udev-dir=PATH	 Location of the udev config.
 
 %{__make}
 
@@ -99,7 +116,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS README TODO ChangeLog
-%attr(755,root,root) %{_bindir}/synce-unlock.py
+%attr(755,root,root) %{_bindir}/synce-unlock
 %attr(755,root,root) %{_libdir}/synce-serial-chat
 %dir %{_datadir}/synce-connector
 %{_datadir}/synce-connector/dhclient.conf
@@ -112,6 +129,19 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/hal/fdi/policy/20thirdparty/10-synce.fdi
 %attr(755,root,root) %{_libdir}/hal/scripts/hal-synce-rndis
 %attr(755,root,root) %{_libdir}/hal/scripts/hal-synce-serial
+%endif
+
+%if %{with udev}
+%files udev
+%defattr(644,root,root,755)
+/etc/dbus-1/system.d/org.synce.dccm.conf
+/lib/udev/rules.d/85-synce.rules
+%attr(755,root,root) %{_bindir}/synce-serial
+%attr(755,root,root) /lib/udev/synce-udev-rndis
+%attr(755,root,root) /lib/udev/synce-udev-serial
+%{_datadir}/dbus-1/system-services/org.synce.dccm.service
+%attr(755,root,root) %{_datadir}/synce-connector/udev-synce-rndis
+%attr(755,root,root) %{_datadir}/synce-connector/udev-synce-serial
 %endif
 
 %if %{with odccm}
