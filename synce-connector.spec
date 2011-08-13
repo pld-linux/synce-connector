@@ -22,7 +22,7 @@
 Summary:	Connection framework and dccm-implementation for WinCE devices
 Name:		synce-connector
 Version:	0.15.2
-Release:	2
+Release:	3
 License:	GPL v2
 Group:		Applications/System
 Source0:	http://downloads.sourceforge.net/synce/%{name}-%{version}.tar.gz
@@ -90,6 +90,7 @@ Provides Connection via UDEV for WinCE devices.
 
 %build
 DHCLIENTPATH=/sbin/dhclient \
+UDEVADMPATH=/sbin/udevadm \
 %configure \
 	%{?with_udev:--enable-udev} \
 	%{!?with_udev:--disable-udev} \
