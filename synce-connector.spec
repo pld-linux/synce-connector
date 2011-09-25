@@ -22,7 +22,7 @@
 Summary:	Connection framework and dccm-implementation for WinCE devices
 Name:		synce-connector
 Version:	0.15.2
-Release:	3
+Release:	4
 License:	GPL v2
 Group:		Applications/System
 Source0:	http://downloads.sourceforge.net/synce/%{name}-%{version}.tar.gz
@@ -35,6 +35,7 @@ BuildRequires:	gnet-devel
 %{?with_hal:BuildRequires:	hal-devel >= 0.5.8}
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
+BuildRequires:	rpmbuild(macros) >= 1.219
 BuildRequires:	synce-libsynce-devel >= 0.11
 %{?with_udev:BuildRequires:	udev-devel}
 %{?with_udev:BuildRequires:	udev-glib-devel}
@@ -111,6 +112,10 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+%py_ocomp $RPM_BUILD_ROOT%{_datadir}/%{name}
+%py_comp $RPM_BUILD_ROOT%{_datadir}/%{name}
+%py_postclean %{_datadir}/%{name}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -121,7 +126,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/synce-serial-chat
 %dir %{_datadir}/synce-connector
 %{_datadir}/synce-connector/dhclient.conf
-%{_datadir}/synce-connector/synceconnector.py
+%{_datadir}/synce-connector/synceconnector.py[co]
 
 %if %{with hal}
 %files hal
