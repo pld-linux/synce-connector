@@ -1,4 +1,5 @@
 # TODO:
+# - replace all this stuff with synce-core
 # - check connector-dccm requirements
 # - bluetooth?
 #
