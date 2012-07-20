@@ -22,7 +22,7 @@
 Summary:	Connection framework and dccm-implementation for WinCE devices
 Name:		synce-connector
 Version:	0.15.2
-Release:	4
+Release:	5
 License:	GPL v2
 Group:		Applications/System
 Source0:	http://downloads.sourceforge.net/synce/%{name}-%{version}.tar.gz
