@@ -7,7 +7,7 @@
 %bcond_without	dccm	# build without dccm file support
 %bcond_with	hal	# build without HAL support
 %bcond_without	udev	# build without UDEV support
-%bcond_without	odccm	# build without odccm support
+%bcond_with	odccm	# build without odccm support
 
 # UDEV disables HAL
 %if %{with udev}
@@ -65,7 +65,7 @@ Group:		Applications/System
 Requires:	%{name} = %{version}-%{release}
 Requires:	synce-odccm
 
-%description -n synce-connector-odccm
+%description odccm
 Provides Connection via odccm for WinCE devices.
 
 %package dccm
@@ -95,13 +95,14 @@ UDEVADMPATH=/sbin/udevadm \
 %configure \
 	%{?with_udev:--enable-udev} \
 	%{!?with_udev:--disable-udev} \
+	%{!?with_odccm:--disable-odccm-support} \
 %if %{with hal}
 	--with-hal-addon-dir=%{_libdir}/hal/scripts
+%else
+	--disable-hal-support
 %endif
 
 #	%{!?with_dccm: --disable-dccm-file-support} \
-#	%{!?with_hal: --disable-hal-support} \
-#	%{!?with_odccm: --disable-odccm-support}
 #
 #  --enable-bluetooth-support Build in bluetooth support
 
