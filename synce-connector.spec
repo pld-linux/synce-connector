@@ -1,3 +1,4 @@
+# NOTE: for versions >= 0.16 see synce-core.spec
 # TODO:
 # - replace all this stuff with synce-core
 # - check connector-dccm requirements
@@ -20,7 +21,8 @@
 %undefine	with_hal
 %endif
 
-Summary:	Connection framework and dccm-implementation for WinCE devices
+Summary:	Connection framework and DCCM implementation for WinCE devices
+Summary(pl.UTF-8):	Szkielet połączeń oraz implementacja DCCM dla urządzeń WinCE
 Name:		synce-connector
 Version:	0.15.2
 Release:	5
@@ -44,48 +46,64 @@ Requires:	dhcp-client
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-Synce-connector is a connection framework and dccm-implementation for
+Synce-connector is a connection framework and DCCM implementation for
 Windows Mobile devices that integrates with HAL or udev.
 
 %description -l pl.UTF-8
-Biblioteka libsynce to część projektu SynCE. Jest wymagana dla (co
-najmniej) następujących części projektu: librapi2, dccmd.
+Synce-connector to szkielet połączeń oraz implementacja DCCM dla
+urządzeń Windows Mobile; integruje się z HAL lub udev.
 
 %package hal
-Summary:	Provides Connection via HAL for WinCE devices
+Summary:	Connection via HAL for WinCE devices
+Summary(pl.UTF-8):	Połączenie poprzez HAL z urządzeniami WinCE
 Group:		Applications/System
 Requires:	%{name} = %{version}-%{release}
 Requires:	synce-hal
 
 %description hal
-Provides Connection via HAL for WinCE devices.
+This package provides connection via HAL for WinCE devices.
+
+%description hal -l pl.UTF-8
+Ten pakiet zapewnia połączenie poprzez HAL z urządzeniami WinCE.
 
 %package odccm
-Summary:	Provides Connection via odccm for WinCE devices
+Summary:	Connection via odccm for WinCE devices
+Summary(pl.UTF-8):	Połączenie poprzez odccm z urządzeniami WinCE
 Group:		Applications/System
 Requires:	%{name} = %{version}-%{release}
 Requires:	synce-odccm
 
 %description odccm
-Provides Connection via odccm for WinCE devices.
+This package provides connection via odccm for WinCE devices.
+
+%description odccm -l pl.UTF-8
+Ten pakiet zapewnia połączenie poprzez odccm z urządzeniami WinCE.
 
 %package dccm
-Summary:	Provides Connection via dccm for WinCE devices
+Summary:	Connection via dccm for WinCE devices
+Summary(pl.UTF-8):	Połączenie poprzez dccm z urządzeniami WinCE
 Group:		Applications/System
 Requires:	%{name} = %{version}-%{release}
 # check what is actually required
 Requires:	synce-vdccm
 
 %description dccm
-Provides Connection via dccm for WinCE devices.
+This package provides connection via dccm for WinCE devices.
+
+%description dccm -l pl.UTF-8
+Ten pakiet zapewnia połączenie poprzez dccm z urządzeniami WinCE.
 
 %package udev
-Summary:	Provides Connection via UDEV for WinCE devices
+Summary:	Connection via UDEV for WinCE devices
+Summary(pl.UTF-8):	Połączenie poprzez UDEV z urządzeniami WinCE
 Group:		Applications/System
 Requires:	%{name} = %{version}-%{release}
 
 %description udev
-Provides Connection via UDEV for WinCE devices.
+This package provides connection via UDEV for WinCE devices.
+
+%description udev -l pl.UTF-8
+Ten pakiet zapewnia połączenie poprzez UDEV z urządzeniami WinCE.
 
 %prep
 %setup -q
